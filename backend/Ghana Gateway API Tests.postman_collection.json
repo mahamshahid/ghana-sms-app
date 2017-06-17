@@ -1,0 +1,76 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Ghana Gateway API Tests",
+		"_postman_id": "601569d0-d67d-33e3-22c2-bf84ef45d3ca",
+		"description": "API mock tests for testing the Ghana API routes exposed to be used on the gateway (the android server)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Update Message Receive Time",
+			"request": {
+				"url": "localhost:3000/messages/2",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "receive_time",
+							"value": "2017-06-18 12:15:02",
+							"type": "text",
+							"enabled": true
+						}
+					]
+				},
+				"description": "Needs message_id in route params\nNeeds receive_time in body params (x-www-urlformencoded header)"
+			},
+			"response": []
+		},
+		{
+			"name": "Verify User Phone Number",
+			"request": {
+				"url": "localhost:3000/user/verify",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "phone_number",
+							"value": "+92-300-1234567",
+							"type": "text",
+							"enabled": true
+						}
+					]
+				},
+				"description": "Requires phone_number as a body param"
+			},
+			"response": []
+		},
+		{
+			"name": "Get count of messages with status 1",
+			"request": {
+				"url": "localhost:3000/messages/status",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
