@@ -124,6 +124,28 @@ app.route('/messages')
 		});
 	});
 
+app.route('/messages/status')
+	.get(function getMessageStatus(req, res) {
+		console.log('executing');
+		const statusQuery = 'SELECT count(message_status_id) AS count\
+			FROM `messages`\
+			WHERE message_status_id = 1';
+		const queryHandler = function (err, result) {
+			if(err) {
+				console.log(err);
+			} else {
+				console.log(result);
+				res.status(200);
+				res.json(result[0]);
+			}
+		}
+
+		pool.getConnection(function(err, connection) {
+			connection.query(statusQuery, queryHandler);
+			connection.release();
+		});
+	});
+
 app.route('/messages/:message_id')
 	.get(function getMessage(req, res) {
 		const getMessageQuery = 'SELECT message_id AS messageId,\
@@ -168,6 +190,32 @@ app.route('/messages/:message_id')
 			connection.release();
 		});
 	})
+	.put(function updateMessage(req, res) {
+		const updateMsgReceivedQuery = 'UPDATE `messages` SET received_at=TIMESTAMP(?) WHERE message_id=?';
+		const receiveTime = req.body.receive_time;
+		console.log(req.body);
+		const id = req.params.message_id;
+		const values = [receiveTime, id];
+		console.log(values);
+
+		const queryHandler = function (err, result) {
+			if(err) {
+				console.log(err);
+			} else {
+				console.log(result)
+				res.status(200);
+				res.send();
+			}
+		}
+
+		pool.getConnection(function(err, connection) {
+			if(err) {
+				console.log(err);
+			}
+			connection.query(updateMsgReceivedQuery, values, queryHandler);
+			connection.release();
+		});
+	})
 	.delete(function deleteMessage(req, res) {
 		const deleteMessageQuery = 'DELETE FROM `MESSAGES` WHERE message_id = ?';
 		const messageId = req.params.message_id;
@@ -176,6 +224,7 @@ app.route('/messages/:message_id')
 				throw err
 			} else {
 				res.status(200);
+				res.send();
 			}
 		}
 
@@ -187,6 +236,7 @@ app.route('/messages/:message_id')
 			connection.release();
 		});
 	});
+
 
 /*
  * LOGIN ENDPOINTS
@@ -367,7 +417,39 @@ app.route('/register')
 		});
 	});
 
+/*
+ * USER ENDPOINTS
+ */
+app.route('/user/verify')
+	.post(function verifyNumber(req, res) {
+		const verifyUserQuery = 'SELECT COUNT(phone_number) AS user_exists\
+		FROM `USERS`\
+		WHERE phone_number = ?'
+		const number = req.body.phone_number;
+		const queryHandler = function (err, result) {
+			if(err) {
+				// query failed
+				const errorModel = {
+					errorCode: 500,
+					errorMessage: 'Error executing the query on db',
+					errorObject: err
+				};
+				console.log(errorModel);
+			} else {
+				console.log(result);
+				res.status(200);
+				res.json(result[0]);
+			}
+		}
 
+		pool.getConnection(function(err, connection) {
+			if(err) {
+				console.log(err);
+			}
+			connection.query(verifyUserQuery, number, queryHandler);
+			connection.release();
+		});
+	});
 
 /*
  * EVENT/NEWS ENDPOINTS
