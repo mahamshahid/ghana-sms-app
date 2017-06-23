@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 03, 2017 at 04:25 PM
+-- Generation Time: Jun 23, 2017 at 02:50 AM
 -- Server version: 5.7.14
 -- PHP Version: 5.6.25
 
@@ -64,8 +64,10 @@ CREATE TABLE `events` (
 --
 
 INSERT INTO `events` (`event_id`, `event_title`, `event_excerpt`, `event_body`, `event_type`, `last_update`, `created_on`, `dispatch_status_id`, `event_user_id`) VALUES
-(1, 'Launch Event for SMS App', 'An event is planned to launch the SMS App for Ghana trainees on 5th June, 16:00 Local Time at Venue XYZ', 'Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum', 0, '2017-06-01 13:03:00', '2017-05-31 07:00:00', 1, 1234567890000),
-(2, 'Workshop to be held for training of Ghana trainees', 'Venue: xyz\r\nTime: xyz', 'new test body', 0, '2017-06-01 00:00:00', '2017-05-31 00:00:00', 2, 1234567890000);
+(1, 'Launch Event for SMS App', 'An event is planned to launch the SMS App for Ghana trainees on 5th June, 16:00 Local Time at Venue XYZ', 'Just some lorem ipsum body', 0, '2017-06-22 18:09:32', '2017-05-31 07:00:00', 1, 1234567890000),
+(2, 'Workshop to be held for training of Ghana trainees', 'Venue: xyz\r\nTime: xyz', 'new test body', 0, '2017-06-01 00:00:00', '2017-05-31 00:00:00', 2, 1234567890000),
+(3, 'Test event', 'blah blah blah', 'Just some test body here', 1, '2017-06-22 18:10:41', '2017-06-22 00:00:00', 2, 123456789000),
+(8, 'Pakistan Wins Champions Trophy', 'What an astonishing win for Pakistan', 'What an astonishing win for Pakistan. Pakistan blasted India away from the tournament to be crowned the champions in the shorter format of the game. Internal peace and bliss brought to the fans! :D', 1, '2017-06-22 21:13:20', '2017-06-22 21:13:20', 1, 123456789000);
 
 -- --------------------------------------------------------
 
@@ -88,7 +90,29 @@ CREATE TABLE `login` (
 
 INSERT INTO `login` (`login_id`, `cnic`, `current_session_id`, `last_login`, `last_update`, `created_on`) VALUES
 (1, 1234567890000, '10', '2017-05-30 20:43:37', '2017-05-30 20:43:37', '2017-05-30 00:00:00'),
-(4, 1234, NULL, '2017-06-03 21:23:14', '2017-06-03 21:23:14', '2017-06-03 21:23:14');
+(23, 123456789000, NULL, '2017-06-22 14:05:03', '2017-06-22 14:05:03', '2017-06-22 14:10:16'),
+(24, 123456789000, NULL, '2017-06-22 14:05:03', '2017-06-22 14:05:03', '2017-06-22 14:12:34'),
+(25, 123456789000, NULL, '2017-06-22 14:05:03', '2017-06-22 14:05:03', '2017-06-22 14:16:19'),
+(26, 123456789000, NULL, '2017-06-22 14:05:03', '2017-06-22 14:05:03', '2017-06-22 14:31:30'),
+(27, 123456789000, NULL, '2017-06-22 14:05:03', '2017-06-22 14:05:03', '2017-06-22 14:33:39'),
+(28, 123456789000, NULL, '2017-06-22 14:05:03', '2017-06-22 14:05:03', '2017-06-22 14:34:29'),
+(29, 123456789000, NULL, '2017-06-22 14:05:03', '2017-06-22 14:05:03', '2017-06-22 14:51:53'),
+(30, 123456789000, NULL, '2017-06-22 14:05:03', '2017-06-22 14:05:03', '2017-06-22 16:19:43'),
+(31, 123456789000, NULL, '2017-06-22 14:05:03', '2017-06-22 14:05:03', '2017-06-22 16:26:53'),
+(32, 123456789000, NULL, '2017-06-22 14:05:03', '2017-06-22 14:05:03', '2017-06-22 16:28:18'),
+(33, 123456789000, NULL, '2017-06-22 14:05:03', '2017-06-22 14:05:03', '2017-06-22 16:30:39'),
+(34, 123456789000, NULL, '2017-06-22 14:05:03', '2017-06-22 14:05:03', '2017-06-22 16:31:13'),
+(35, 123456789000, NULL, '2017-06-22 14:05:03', '2017-06-22 14:05:03', '2017-06-22 16:48:32'),
+(36, 123456789000, NULL, '2017-06-22 14:05:03', '2017-06-22 14:05:03', '2017-06-22 16:50:19'),
+(37, 123456789000, NULL, '2017-06-22 14:05:03', '2017-06-22 14:05:03', '2017-06-22 16:51:03'),
+(38, 123456789000, NULL, '2017-06-22 14:05:03', '2017-06-22 14:05:03', '2017-06-22 16:53:13'),
+(39, 123456789000, NULL, '2017-06-22 14:05:03', '2017-06-22 14:05:03', '2017-06-22 17:08:29'),
+(40, 123456789000, NULL, '2017-06-22 14:05:03', '2017-06-22 14:05:03', '2017-06-22 17:09:02'),
+(41, 123456789000, NULL, '2017-06-22 14:05:03', '2017-06-22 14:05:03', '2017-06-23 06:32:26'),
+(42, 123456789000, NULL, '2017-06-22 14:05:03', '2017-06-22 14:05:03', '2017-06-23 07:17:11'),
+(43, 123456789000, NULL, '2017-06-22 14:05:03', '2017-06-22 14:05:03', '2017-06-23 07:27:02'),
+(44, 123456789000, NULL, '2017-06-22 14:05:03', '2017-06-22 14:05:03', '2017-06-23 07:39:32'),
+(45, 123456789000, NULL, '2017-06-22 14:05:03', '2017-06-22 14:05:03', '2017-06-23 07:41:07');
 
 -- --------------------------------------------------------
 
@@ -103,7 +127,7 @@ CREATE TABLE `messages` (
   `message_type_id` int(11) NOT NULL,
   `message_subtype_id` int(11) NOT NULL,
   `message_category` text,
-  `message_body` blob,
+  `message_body` text,
   `sent_at` datetime DEFAULT NULL,
   `received_at` datetime DEFAULT NULL,
   `delete_status` tinyint(1) DEFAULT NULL,
@@ -115,9 +139,11 @@ CREATE TABLE `messages` (
 --
 
 INSERT INTO `messages` (`message_id`, `sender_user_id`, `receiver_user_id`, `message_type_id`, `message_subtype_id`, `message_category`, `message_body`, `sent_at`, `received_at`, `delete_status`, `message_status_id`) VALUES
-(1, 123456789000, 1234567890000, 1, 1, 'Technical Assistance', 0x546563686e6963616c20417373697374616e63652052657175697265640d0a0d0a48656c6c6f2074686572652e2049276d20776f726b696e67206f6e20612070726f6a6563742e206e65656420736f6d6520616476696365206f6e2069742e2063616e20796f752068656c703f, '2017-05-30 00:00:00', '2017-05-30 00:00:00', NULL, 1),
-(2, 1234567890000, 123456789000, 1, 1, 'Uncategorized', 0x48656c6c6f20576f726c6421, '2017-05-30 00:00:00', NULL, NULL, 1),
-(3, 123456789000, 1234567890000, 1, 1, 'dsfsfdsfdf', 0x546563686e6963616c20417373697374616e63652052657175697265640d0a0d0a48656c6c6f2074686572652e2049276d20776f726b696e67206f6e20612070726f6a6563742e206e65656420736f6d6520616476696365206f6e2069742e2063616e20796f752068656c703f, '2017-06-01 00:00:00', '2017-06-01 00:00:00', NULL, 2);
+(1, 123456789000, 0, 1, 1, 'Technical Assistance', 'Technical Assistance Required\r\n\r\nHello there. I\'m working on a project. need some advice on it. can you help?', '2017-05-30 00:00:00', '2017-05-30 00:00:00', NULL, 1),
+(2, 1234567890000, 0, 1, 1, 'Uncategorized', 'Hello World!', '2017-05-30 00:00:00', '2017-06-18 12:15:02', NULL, 1),
+(3, 123456789000, 0, 1, 1, 'dsfsfdsfdf', 'Technical Assistance Required\r\n\r\nHello there. I\'m working on a project. need some advice on it. can you help?', '2017-06-01 00:00:00', '2017-06-01 00:00:00', NULL, 2),
+(4, 0, 123456789000, 2, 2, 'Technical Assistance', 'Roger that. We can provide help as soon as you tell us some more details about your project.\nAwaiting your response!', '2017-06-23 04:58:17', NULL, NULL, 1),
+(6, 0, 123456789000, 2, 1, 'Meetup', 'I was planning a meetup and was wondering if you\'d join us. You down?', '2017-06-23 06:26:51', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -201,8 +227,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`cnic`, `full_name`, `date_of_birth`, `phone_number`, `email`, `last_update`, `created_on`, `password`, `user_type`) VALUES
+(0, 'default_web_user', '1993-12-01', '0', 'test@gmail.com', '2017-05-31 00:00:00', '2017-05-31 00:00:00', '3fc0a7acf087f549ac2b266baf94b8b1', 1),
 (2, 'hello', '1997-05-24', '1122345', 'haha@gmail.com', '2017-05-30 00:00:00', '2017-05-30 00:00:00', '5d41402abc4b2a76b9719d911017c592', 0),
-(1234, 'ms', '1993-12-01', '1234567', 'test@gmail.com', '2017-05-31 00:00:00', '2017-05-31 00:00:00', 'qwerty123', 1),
 (123456789000, 'Test Subject', '2005-05-29', '+92-300-1234567', 'testsubject@gmail.com', '2017-05-29 21:25:00', '2017-05-29 21:00:00', '3fc0a7acf087f549ac2b266baf94b8b1', 0),
 (1234567890000, 'Web Operator', '2000-07-07', '+92-314-7779852', 'web.operator@gmail.com', '2017-05-30 00:00:00', '2017-05-30 00:00:00', '3fc0a7acf087f549ac2b266baf94b8b1', 1);
 
@@ -274,17 +300,17 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `login`
 --
 ALTER TABLE `login`
-  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 --
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- Constraints for dumped tables
 --
@@ -294,7 +320,7 @@ ALTER TABLE `messages`
 --
 ALTER TABLE `events`
   ADD CONSTRAINT `dispatch_status` FOREIGN KEY (`dispatch_status_id`) REFERENCES `dispatch_status` (`dispatch_status_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `event_user` FOREIGN KEY (`event_user_id`) REFERENCES `login` (`cnic`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `event_user` FOREIGN KEY (`event_user_id`) REFERENCES `users` (`cnic`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `login`

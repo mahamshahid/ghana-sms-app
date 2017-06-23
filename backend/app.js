@@ -4,6 +4,7 @@ const express = require('express');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const moment = require('moment');
+const cors = require('cors');
 
 const dbConnectConfig = {
 	host: 'localhost',
@@ -20,6 +21,7 @@ const app = express();
 app.use(bodyParser.json());
 // support encoded bodies
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 
 app.get('/', function(req, res) {
 	res.send('Hello World!');
@@ -60,6 +62,7 @@ app.route('/messages')
 				(SELECT message_subtype_name\
 					FROM `MESSAGE_SUBTYPE`\
 					WHERE message_subtype_id = `MESSAGES`.message_subtype_id) AS messageSubType,\
+				message_category AS messageCategory,\
 				message_body AS body\
 			FROM `MESSAGES`';
 		const queryHandler = function (err, result) {
@@ -107,7 +110,14 @@ app.route('/messages')
 			req.body.messageStatusId];
 		const queryHandler = function (err, result) {
 			if(err) {
-				throw err
+				console.log(err);
+				const errorModel = {
+					errorCode: 400,
+					errorMessage: 'Bad Request. Error inserting data in database.',
+					errorObject: err
+				};
+				res.status(400);
+				res.json(errorModel);
 			} else {
 				console.log('Message inserted...result: ' + JSON.stringify(result));
 				res.status(200);
@@ -117,7 +127,14 @@ app.route('/messages')
 
 		pool.getConnection(function(err, connection) {
 			if(err) {
-				throw err;
+				console.log(err);
+				const errorModel = {
+					errorCode: 500,
+					errorMessage: 'Error in db connection. Try again or contact system admin',
+					errorObject: err
+				};
+				res.status(500);
+				res.json(errorModel);
 			}
 			connection.query(saveMessageQuery, valsArray, queryHandler);
 			connection.release();
@@ -243,6 +260,11 @@ app.route('/messages/:message_id')
  */
 app.route('/login')
 	.post(function login(req, res) {
+		console.log('login called');
+		// console.log(req.body.cnic);
+		// console.log(req.body.password);
+		console.log(req.body);
+		console.log(req.query);
 		const username = req.body.cnic;
 		const pwd = req.body.password;
 		// checking if credentials match from db
@@ -274,7 +296,7 @@ app.route('/login')
 					};
 					console.log(errorModel);
 					res.status(404);
-					throw errorModel;
+					res.send(errorModel);
 				} else {
 					connection.query(lastLoginQuery, username, function(lastLoginError, lastLoginResult) {
 						if(!lastLoginError) {
@@ -294,15 +316,32 @@ app.route('/login')
 								if(!loginQueryError) {
 									connection.query(loginResponseQuery, responseValues, function(loginErr, loginResp) {
 										if(!loginErr) {
-											console.log(loginResp);
-											res.status(204);
-											res.json(loginResp);
+											const data = {
+												loginId: loginResp[0].loginId,
+												currentSessionId: loginResp[0].currentSessionId
+											};
+											console.log(data);
+											res.status(200);
+											res.json(data);
+										} else {
+											const errorModel = {
+												errorCode: 500,
+												errorMessage: 'No such login record found in the database',
+												errorObject: loginErr
+											};
+											res.status(500);
+											res.json(errorModel);
 										}
 									});
 								} else {
-									throw loginQueryError;
+									console.log(loginQueryError);
+									const errorModel = {
+										errorCode: 500,
+										errorMessage: 'An error occurred while logging in. Data provided is invalid.',
+										errorObject: loginQueryError
+									};
 									res.status(500);
-									res.json(loginQueryError);
+									res.json(errorModel);
 								}
 							});
 						}
@@ -357,13 +396,14 @@ app.route('/login/:cnic')
 app.route('/login/:login_id')
 	.delete(function logout(req, res) {
 		const logoutQuery = 'DELETE FROM `login` WHERE login_id = ?';
-		const value = req.body.login_id;
+		const value = req.params.login_id;
 
 		const queryHandler = function (err, result) {
 			if(err) {
-				throw err
+				console.log(err);
 			} else {
-				res.status(200);
+				res.status(204);
+				res.send();
 			}
 		}
 
@@ -420,6 +460,36 @@ app.route('/register')
 /*
  * USER ENDPOINTS
  */
+app.route('/user')
+	.post(function getUserName(req, res) {
+		const getUserNameQuery = 'SELECT full_name AS name\
+		FROM `USERS`\
+		WHERE cnic = ?'
+		const userId = req.body.user_id;
+		const queryHandler = function (err, result) {
+			if(err) {
+				// query failed
+				const errorModel = {
+					errorCode: 500,
+					errorMessage: 'Error executing the query on db',
+					errorObject: err
+				};
+				console.log(errorModel);
+			} else {
+				console.log(result[0]);
+				res.status(200);
+				res.json(result[0]);
+			}
+		}
+
+		pool.getConnection(function(err, connection) {
+			if(err) {
+				console.log(err);
+			}
+			connection.query(getUserNameQuery, userId, queryHandler);
+			connection.release();
+		});
+	});
 app.route('/user/verify')
 	.post(function verifyNumber(req, res) {
 		const verifyUserQuery = 'SELECT COUNT(phone_number) AS user_exists\
@@ -436,7 +506,7 @@ app.route('/user/verify')
 				};
 				console.log(errorModel);
 			} else {
-				console.log(result);
+				console.log(result[0]);
 				res.status(200);
 				res.json(result[0]);
 			}
@@ -450,6 +520,46 @@ app.route('/user/verify')
 			connection.release();
 		});
 	});
+app.route('/user/numbers')
+	.get(function getUserNumbers(req,res) {
+		const getNumbersQuery = 'SELECT full_name AS name,\
+			phone_number AS phone\
+			FROM `users`\
+			WHERE user_type = 0 '
+
+		const queryHandler = function (err, result) {
+			if(err) {
+				// query failed
+				console.log(err);
+				const errorModel = {
+					errorCode: 400,
+					errorMessage: 'Bad Request. Error inserting data in database.',
+					errorObject: err
+				};
+				res.status(400);
+				res.json(errorModel);
+			} else {
+				console.log(result);
+				res.status(200);
+				res.json(result);
+			}
+		}
+
+		pool.getConnection(function(err, connection) {
+			if(err) {
+				console.log(err);
+				const errorModel = {
+					errorCode: 500,
+					errorMessage: 'Connection with database failed. Try again or contact system admin.',
+					errorObject: err
+				};
+				res.status(500);
+				res.json(errorModel);
+			}
+			connection.query(getNumbersQuery, queryHandler);
+			connection.release();
+		});
+	})
 
 /*
  * EVENT/NEWS ENDPOINTS
@@ -488,7 +598,7 @@ app.route('/event_news')
 		});
 	})
 	.post(function addEventNews(req, res) {
-		const addEventNewsQuery = 'INSERT INTO `events`(`event_title`, `event_excerpt`, `event_body`,\ `event_type`, `last_update`, `created_on`, `dispatch_status_id`, `event_user_id`)\
+		const addEventNewsQuery = 'INSERT INTO `events`(`event_title`, `event_excerpt`, `event_body`, `event_type`, `last_update`, `created_on`, `dispatch_status_id`, `event_user_id`)\
 		VALUES (?, ?, ?, ?, TIMESTAMP(?), TIMESTAMP(?), ?, ?)';
 		const values = [req.body.eventName, req.body.eventExcerpt, req.body.eventBody, req.body.eventType, req.body.lastUpdate, req.body.createdOn, req.body.dispatch, req.body.userId];
 
@@ -503,8 +613,8 @@ app.route('/event_news')
 				console.log(errorModel);
 			} else {
 				console.log(result);
-				res.status(204);
-				res.send();
+				res.status(200);
+				res.json(result.insertId);
 			}
 		}
 
@@ -599,7 +709,8 @@ app.route('/dashboard')
 		AND message_status_id = ?\
 		AND message_type_id = ?\
 		AND message_subtype_id = ?';
-		const values = [2, loggedInDetails.userId, 0, 2, loggedInDetails.userId, 1, loggedInDetails.userId, 2, 1, 1 ];
+		const userId = req.body.user_id;
+		const values = [2, userId, 0, 2, userId, 1, userId, 2, 1, 1 ];
 
 		const queryHandler = function (err, result) {
 			if(err) {
@@ -611,9 +722,9 @@ app.route('/dashboard')
 				};
 				console.log(errorModel);
 			} else {
-				console.log(result);
+				console.log(result[0]);
 				res.status(200);
-				res.json(result);
+				res.json(result[0]);
 			}
 		}
 

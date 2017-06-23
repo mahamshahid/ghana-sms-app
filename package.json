@@ -9,7 +9,10 @@
   "author": "Maham Shahid + Shozib Abbas",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.17.2",
+    "cors": "^2.8.3",
     "express": "^4.15.3",
+    "moment": "^2.18.1",
     "mysql": "^2.13.0"
   }
 }
