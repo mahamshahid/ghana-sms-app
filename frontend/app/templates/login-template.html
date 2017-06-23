@@ -1,0 +1,52 @@
+<!-- <h1> test </h1>
+
+{{loginModel}}
+
+<input type="text" value="hello world" ng-model="loginModel.id">
+ -->
+<div class="row">
+	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-lg-offset-3 col-md-offset-3 col-sm-offset-3">
+		<h2>Login To Ghana Messaging Web Portal</h2>
+	</div>
+</div>
+<br/><br/><br/>
+<div class="row">
+	<div class="col-lg-3 col-md-3 col-sm-3 col-xs-0">
+	</div>
+	
+	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+		<div class="panel panel-default">
+			<div class="panel-heading text-center">
+				<span class="glyphicon glyphicon-lock icon"></span>
+			</div>
+			<div class="panel-body">
+				<form name="loginForm">
+					<div class="form-group">
+						<label>CNIC</label>
+						<input type="text"
+							class= "form-control"
+							name="cnic"
+							placeholder="Enter your registered CNIC number"
+							ng-model="loginModel.id">
+					</div>
+					<div class="form-group">
+						<label>Password</label>
+						<input type="password"
+							name="pwd"
+							class="form-control"
+							placeholder="Enter your password"
+							ng-model="loginModel.pwd">
+					</div>
+					<button id="loginBtn"
+						class="btn btn-default btn-primary pull-right"
+						ng-click="login()">
+						Login
+					</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-3 col-md-3 col-sm-3 col-xs-0">
+	</div>
+</div>

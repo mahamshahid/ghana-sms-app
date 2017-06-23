@@ -1,0 +1,153 @@
+<div class="row">
+	<div class="col-lg-1 col-md-1 col-sm-1 col-xs-0 text-center">
+		<span class="glyphicon glyphicon-phone page-heading"></span>
+	</div>
+	<div class="col-lg-11 col-md-11 col-sm-11 col-xs-12">
+		<h2>Messages</h2>
+	</div>
+</div>
+<hr/>
+
+<div class="row-fluid">
+	<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+		<span>Filter By: </span>
+	</div>
+	<div class="col-lg-3 col-md-3 col-sm-3" >
+		<select class="form-control">
+			<option>Inbox</option>
+			<option>Outbox</option>
+			<option ng-repeat="option in categories">{{option}}</option>
+		</select>
+	</div>
+	<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+		<button type="button" class="btn btn-default btn-primary">
+		    Apply Filter
+		</button>
+		<button type="button" class="btn btn-default btn-primary">
+		    Reset Filters
+		</button>
+	</div>
+	<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
+		<button type="button"
+			class="btn btn-default btn-primary pull-right"
+			data-toggle="modal"
+			data-target="#addModal"
+			ng-click="openAddModal()">
+		    Send New Message
+		</button>
+	</div>
+</div>
+<br/><br/><br/>
+
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-3">
+	<div class="list-group">
+	  <a href=""
+	  	class="list-group-item"
+	  	ng-repeat="message in messages"
+	  	ng-click="openMessage($index)"
+	  	ng-class="{'active': selectedItem.messageId === messages[$index].messageId}">
+	    <h4 class="list-group-item-heading bold">{{message.senderName}}</h4>
+	    <div class="list-group-item-text">
+	    	<h4>{{message.senderPhoneNum}}</h4>
+	    	<p>{{message.body}}</p>
+    	</div>
+	  </a>
+	</div>
+</div>
+
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-9">
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<h4><b>Message From: </b> {{selectedItem.senderName}}</h4>
+			<h4><b>Message To: </b> {{selectedItem.receiverName}}</h4>
+			<h4><b>Sender's Phone Number: </b> {{selectedItem.senderPhoneNum}}</h4>
+			<h5><b>Sending time: </b> {{selectedItem.sentAt}}</h5>
+			<h5><b>Receiving time: </b> {{selectedItem.receivedAt}}</h5>
+			<br/>
+			<h5><b>Subject: {{selectedItem.messageCategory}}</b></h5>
+			<hr/>
+			<p>
+				{{selectedItem.body}}
+			</p>
+			<br/><br/>
+			<button type="button" class="btn btn-default btn-primary pull-right" data-toggle="modal" data-target="#replyModal" ng-click="initReplyModel()">
+			    Reply
+			</button>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+<!-- Reply Modal -->
+<div class="modal fade" id="replyModal" tabindex="-1" role="dialog" aria-labelledby="replyModalLabel">
+	<div class="modal-dialog" role="document">
+    	<div class="modal-content">
+	        <div class="modal-header">
+	    		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	    		<h4 class="modal-title" id="myModalLabel">Reply To Message</h4>
+	    	</div>
+			<div class="modal-body">
+				<h4><b>Replying To: </b> {{selectedItem.senderName}}</h4>
+				<h5><b>Subject:</b> Re: {{selectedItem.messageCategory}}</h5>
+				<textarea class="form-control" cols="6"placeholder="Type your reply here" ng-model="replyMessage.body">
+				</textarea>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="sendReply()">Send</button>
+			</div>
+    	</div>
+	</div>
+</div>
+
+
+<!-- Add Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
+	<div class="modal-dialog" role="document">
+    	<div class="modal-content">
+	        <div class="modal-header">
+	    		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	    		<h4 class="modal-title" id="myModalLabel">Send New Message</h4>
+	    	</div>
+			<div class="modal-body">
+				<div class="row-fluid">
+					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+						<label>Receiver's Phone Number</label>
+						<select class="form-control" ng-model="selectedReceiver.phone">
+							<option ng-repeat="receiver in receivers">{{receiver.phone}}</option>
+						</select>
+					</div>
+					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+						<label>Receiver's Name</label>
+						<input type="text" placeholder="Receiver's Name" class="form-control" ng-model="selectedReceiver.name" readonly>
+					</div>
+				</div>
+				<br/><br/><br/><br/><br/>
+				<div class="row-fluid">
+					<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+						<b>Subject:</b>
+					</div>
+					<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+						<input type="text"
+							class="form-control"
+							placeholder="Subject of the message"
+							ng-model="newMessage.messageCategory"> 
+					</div>
+				</div>
+				<br/><br/><br/>
+				<textarea class="form-control"
+					cols="6"
+					placeholder="Type your reply here"
+					ng-model="newMessage.body">
+				</textarea>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-primary" ng-click="sendNewMessage()">Send</button>
+			</div>
+    	</div>
+	</div>
+</div>
