@@ -29,11 +29,6 @@ app.get('/', function(req, res) {
 
 app.listen(3000, function() {
 	console.log('Server started listening on port 3000');
-	// console.log(Date());
-	// console.log(new Date().getTime());
-	// // console.log(moment(Date()));
-	// console.log(moment(Date.now()).toISOString());
-	// console.log(moment(new Date()));
 });
 
 /*
@@ -64,7 +59,8 @@ app.route('/messages')
 					WHERE message_subtype_id = `MESSAGES`.message_subtype_id) AS messageSubType,\
 				message_category AS messageCategory,\
 				message_body AS body\
-			FROM `MESSAGES`';
+			FROM `MESSAGES`\
+			WHERE delete_status IS NULL';
 		const queryHandler = function (err, result) {
 			if(err) {
 				throw err
@@ -493,8 +489,8 @@ app.route('/user')
 app.route('/user/verify')
 	.post(function verifyNumber(req, res) {
 		const verifyUserQuery = 'SELECT COUNT(phone_number) AS user_exists\
-		FROM `USERS`\
-		WHERE phone_number = ?'
+			FROM `USERS`\
+			WHERE phone_number = ?'
 		const number = req.body.phone_number;
 		const queryHandler = function (err, result) {
 			if(err) {
@@ -517,6 +513,36 @@ app.route('/user/verify')
 				console.log(err);
 			}
 			connection.query(verifyUserQuery, number, queryHandler);
+			connection.release();
+		});
+	});
+app.route('/user/verify/cnic')
+	.post(function verifyUser(req, res) {
+		const verifyUserQuery = 'SELECT COUNT(cnic) AS user_exists\
+			FROM `USERS`\
+			WHERE cnic = ?'
+		const id = req.body.cnic;
+		const queryHandler = function (err, result) {
+			if(err) {
+				// query failed
+				const errorModel = {
+					errorCode: 500,
+					errorMessage: 'Error executing the query on db',
+					errorObject: err
+				};
+				console.log(errorModel);
+			} else {
+				console.log(result[0]);
+				res.status(200);
+				res.json(result[0]);
+			}
+		}
+
+		pool.getConnection(function(err, connection) {
+			if(err) {
+				console.log(err);
+			}
+			connection.query(verifyUserQuery, id, queryHandler);
 			connection.release();
 		});
 	});
@@ -560,6 +586,77 @@ app.route('/user/numbers')
 			connection.release();
 		});
 	})
+app.route('/user/numbers_all')
+	.get(function getUserNumbers(req,res) {
+		const getNumbersQuery = 'SELECT full_name AS name,\
+			phone_number AS phone\
+			FROM `users`\
+			WHERE user_type <> 0'
+
+		const queryHandler = function (err, result) {
+			if(err) {
+				// query failed
+				console.log(err);
+				const errorModel = {
+					errorCode: 400,
+					errorMessage: 'Bad Request. Error inserting data in database.',
+					errorObject: err
+				};
+				res.status(400);
+				res.json(errorModel);
+			} else {
+				console.log(result);
+				res.status(200);
+				res.json(result);
+			}
+		}
+
+		pool.getConnection(function(err, connection) {
+			if(err) {
+				console.log(err);
+				const errorModel = {
+					errorCode: 500,
+					errorMessage: 'Connection with database failed. Try again or contact system admin.',
+					errorObject: err
+				};
+				res.status(500);
+				res.json(errorModel);
+			}
+			connection.query(getNumbersQuery, queryHandler);
+			connection.release();
+		});
+	})
+app.route('/user/password')
+	.put(function udpatePwd(req, res) {
+		const updatePwdQuery = 'UPDATE `USERS`\
+			SET password = MD5(?)\
+			WHERE cnic = ?';
+		const randomPwd = Math.random().toString(36).substr(2, 8);
+		const values = [randomPwd.toString(), req.body.cnic];
+		const queryHandler = function (err, result) {
+			if(err) {
+				// query failed
+				const errorModel = {
+					errorCode: 500,
+					errorMessage: 'Error executing the query on db',
+					errorObject: err
+				};
+				console.log(errorModel);
+			} else {
+				console.log(result[0]);
+				res.status(200);
+				res.json(randomPwd);
+			}
+		}
+
+		pool.getConnection(function(err, connection) {
+			if(err) {
+				console.log(err);
+			}
+			connection.query(updatePwdQuery, values, queryHandler);
+			connection.release();
+		});
+	});
 
 /*
  * EVENT/NEWS ENDPOINTS
@@ -685,6 +782,72 @@ app.route('/event_news/:id')
 			connection.release();
 		});
 	})
+app.route('/event_news/dispatch')
+	.get(function getEventNewsToDispatch(req, res) {
+		const eventQuery = 'SELECT event_id AS eventId,\
+			event_title AS eventName,\
+			event_body AS eventBody,\
+			event_excerpt AS eventExcerpt,\
+			event_type AS eventType\
+		FROM events\
+		WHERE dispatch_status_id = 1';
+
+		const queryHandler = function (err, result) {
+			if(err) {
+				// query failed
+				const errorModel = {
+					errorCode: 500,
+					errorMessage: 'Error executing the query on db',
+					errorObject: err
+				};
+				console.log(errorModel);
+			} else {
+				console.log(result);
+				res.status(200);
+				res.json(result);
+			}
+		}
+
+		pool.getConnection(function(err, connection) {
+			if(err) {
+				console.log(err);
+			}
+			connection.query(eventQuery, queryHandler);
+			connection.release();
+		});
+	})
+app.route('/event_news/dispatch/:id')
+	.put(function updateEventNewsToDispatch(req, res) {
+		const updateQuery = 'UPDATE `events`\
+			SET dispatch_status_id = 2\
+			WHERE event_id = ?';
+		const id = req.params.id;
+
+		const queryHandler = function (err, result) {
+			if(err) {
+				// query failed
+				const errorModel = {
+					errorCode: 500,
+					errorMessage: 'Error executing the query on db',
+					errorObject: err
+				};
+				console.log(errorModel);
+			} else {
+				console.log(req.params.id);
+				console.log(result);
+				res.status(204);
+				res.send();
+			}
+		}
+
+		pool.getConnection(function(err, connection) {
+			if(err) {
+				console.log(err);
+			}
+			connection.query(updateQuery, id, queryHandler);
+			connection.release();
+		});
+	})
 
 /*
  * DASHBOARD ENDPOINT
@@ -710,7 +873,7 @@ app.route('/dashboard')
 		AND message_type_id = ?\
 		AND message_subtype_id = ?';
 		const userId = req.body.user_id;
-		const values = [2, userId, 0, 2, userId, 1, userId, 2, 1, 1 ];
+		const values = [1, userId, 0, 1, userId, 1, userId, 1, 1, 1 ];
 
 		const queryHandler = function (err, result) {
 			if(err) {

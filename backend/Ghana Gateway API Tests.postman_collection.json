@@ -71,6 +71,82 @@
 				"description": ""
 			},
 			"response": []
+		},
+		{
+			"name": "Get Phone Number of All Users Except Admin",
+			"request": {
+				"url": "localhost:3000/user/numbers_all",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Returns the name and phone numbers of all users who are not of type 0 (which are not admins)"
+			},
+			"response": []
+		},
+		{
+			"name": "Update event/news dispatch id",
+			"request": {
+				"url": "localhost:3000/event_news/dispatch/8",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "id",
+							"value": "8",
+							"type": "text",
+							"enabled": true
+						}
+					]
+				},
+				"description": "Updates the dispatch_status_id of the event or news (whose id is passed in) to status \"2\" (which means that the message has been sent from the android server to the receiver)"
+			},
+			"response": []
+		},
+		{
+			"name": "Get values for dashboard",
+			"request": {
+				"url": "localhost:3000/dashboard",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "user_id",
+							"value": "123456789000",
+							"type": "text",
+							"enabled": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Events/News To Be Dispatched",
+			"request": {
+				"url": "localhost:3000/event_news/dispatch",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Gets all the events/news to be dispatched by the android server to trainees"
+			},
+			"response": []
 		}
 	]
 }
