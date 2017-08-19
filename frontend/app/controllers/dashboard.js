@@ -19,6 +19,10 @@ angular.module('GhanaSmsApp')
 			news: ''
 		};
 
+		if($scope.opName === undefined || $scope.opName !== UserDataService.getUserName()) {
+			$scope.opName = UserDataService.getUserName();
+			location.reload();
+		}
 
 		var loginDetails = UserDataService.getLoginDetails();
 		console.log(loginDetails);
@@ -29,7 +33,6 @@ angular.module('GhanaSmsApp')
 			window.location.href = '#!/';
 			return;
 		}
-
 
 		var configUser = {
 			method: 'POST',

@@ -37,6 +37,13 @@
 							placeholder="Enter your password"
 							ng-model="loginModel.pwd">
 					</div>
+					<a href=""
+						class="pull-left" 
+						data-toggle="modal"
+						data-target="#pwdModal"
+						ng-click="resultMessage = ''; reset.cnic = ''">
+						Reset Password
+					</a>
 					<button id="loginBtn"
 						class="btn btn-default btn-primary pull-right"
 						ng-click="login()">
@@ -48,5 +55,58 @@
 	</div>
 
 	<div class="col-lg-3 col-md-3 col-sm-3 col-xs-0">
+	</div>
+</div>
+
+<!-- Forgot Password Modal -->
+<div class="modal fade"
+	id="pwdModal" tabindex="-1" role="dialog" aria-labelledby="pwdModal">
+	<div class="modal-dialog" role="document">
+    	<div class="modal-content">
+	        <div class="modal-header">
+	    		<button type="button"
+	    			class="close"
+	    			data-dismiss="modal"
+	    			aria-label="Close"
+	    			ng-click="pwdModal = false;">
+	    				<span aria-hidden="true">&times;</span>
+    			</button>
+	    		<h4 class="modal-title" id="myModalLabel">Reset Password</h4>
+	    	</div>
+			<div class="modal-body">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-lg-1 col-md-1 col-sm-1">
+							CNIC:
+						</div>
+						<div class="col-lg-11 col-md-11 col-sm-11">
+							<input
+								type="text"
+								class="form-control"
+								placeholder="Please Enter Your CNIC number"
+								ng-model="reset.cnic">
+						</div>
+					</div>
+					<div class="row">
+						<p class="text-center" style="margin-top:20px;">
+							{{resultMessage}}
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button"
+					class="btn btn-default"
+					data-dismiss="modal"
+					ng-click="pwdModal = false;">
+					Close
+				</button>
+				<button type="button"
+					class="btn btn-default"
+					ng-click="updatePassword()">
+					Update Password
+				</button>
+			</div>
+    	</div>
 	</div>
 </div>

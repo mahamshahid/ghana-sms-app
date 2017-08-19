@@ -13,14 +13,17 @@
 		<span>Filter By: </span>
 	</div>
 	<div class="col-lg-3 col-md-3 col-sm-3" >
-		<select class="form-control">
+		<select class="form-control" ng-model="selectedFilter">
+			<option>None</option>
 			<option>Inbox</option>
 			<option>Outbox</option>
 			<option ng-repeat="option in categories">{{option}}</option>
 		</select>
 	</div>
 	<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-		<button type="button" class="btn btn-default btn-primary">
+		<button type="button"
+			class="btn btn-default btn-primary"
+			ng-click="applyFilter()">
 		    Apply Filter
 		</button>
 		<button type="button" class="btn btn-default btn-primary">

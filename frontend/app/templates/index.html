@@ -21,6 +21,10 @@
   		padding-left: 0px;
   		padding-right: 0px;
   	}
+    .list-group {
+      overflow-y: scroll;
+      height: 28em;
+    }
   	li {
   		list-style: none;
   	}
@@ -59,7 +63,7 @@
 	          		data-toggle="dropdown"
 	          		role="button"
 	          		aria-haspopup="true"
-	          		aria-expanded="false">Operator Name<span class="caret"></span>
+	          		aria-expanded="false">{{opName}}<span class="caret"></span>
           		</a>
 	            <ul class="dropdown-menu">
 	            	<li><a href="" ng-click="logout()">Logout</a></li>

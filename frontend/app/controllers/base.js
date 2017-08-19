@@ -39,7 +39,8 @@ angular.module('GhanaSmsApp')
 						console.log(error);
 					});
 				}
-			}
+			};
+			$scope.opName = UserDataService.getUserName();
 		}
 
 	}

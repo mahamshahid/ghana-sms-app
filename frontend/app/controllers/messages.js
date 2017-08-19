@@ -20,6 +20,8 @@ angular.module('GhanaSmsApp')
 			return;
 		}
 
+		console.log($scope.opName);
+
 		$scope.messages = [];
 		$scope.categories = [];
 		$scope.selectedItem = {};
@@ -51,11 +53,11 @@ angular.module('GhanaSmsApp')
 					$scope.categories.push(message.messageCategory);
 				}
 			});
-		}
+		};
 
 		$scope.openMessage = function(index) {
 			$scope.selectedItem = $scope.messages[index];
-		}
+		};
 		$scope.initReplyModel = function() {
 			$scope.replyMessage.senderPhoneNum = $scope.selectedItem.receiverPhoneNum;
 			$scope.replyMessage.receiverPhoneNum = $scope.selectedItem.senderPhoneNum;
@@ -65,7 +67,7 @@ angular.module('GhanaSmsApp')
 			$scope.replyMessage.sentAt = moment().format('YYYY-MM-DD HH:mm:ss');
 			$scope.replyMessage.messageStatusId = 1;
 			$scope.replyMessage.body = '';
-		}
+		};
 		$scope.sendReply = function() {
 			console.log($scope.replyMessage);
 			var config = {
@@ -88,7 +90,7 @@ angular.module('GhanaSmsApp')
 			}, function(err) {
 				console.log(err);
 			});
-		}
+		};
 		$scope.openAddModal = function() {
 			var config = {
 				method: 'GET',
@@ -103,7 +105,7 @@ angular.module('GhanaSmsApp')
 			}, function(err){
 				console.log(err);
 			});
-		}
+		};
 		$scope.sendNewMessage = function() {
 			var message = {
 				senderPhoneNum: 0,
@@ -136,7 +138,10 @@ angular.module('GhanaSmsApp')
 			}, function(err) {
 				console.log(err);
 			});
-		}
+		};
+		$scope.applyFilter = function() {
+			console.log($scope.selectedFilter);
+		};
 
 		var config = {
 			method: 'GET',
@@ -164,7 +169,7 @@ angular.module('GhanaSmsApp')
 					}
 				});
 			}
-		})
+		});
 
 	}
 	
