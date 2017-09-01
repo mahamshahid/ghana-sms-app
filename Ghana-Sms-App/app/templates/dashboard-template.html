@@ -1,0 +1,57 @@
+<div class="row">
+	<h2 class="text-center">Welcome back <span class="bold">{{operator.name}}</span></h2>
+</div>
+<hr/>
+
+<div class="row">
+	<div class="col-lg-1 col-md-1 col-sm-1 col-xs-0 text-center">
+		<span class="glyphicon glyphicon-dashboard page-heading"></span>
+	</div>
+	<div class="col-lg-11 col-md-11 col-sm-11 col-xs-12">
+		<h2>Dashboard</h2>
+	</div>
+</div>
+
+<br/><br/><br/><br/>
+
+
+<div class="row">
+	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+		<div class="panel panel-default">
+			<div class="panel-heading text-center">
+				<span class="glyphicon glyphicon-phone icon"></span>
+			</div>
+			<div class="panel-body">
+				<h4 class="text-center">You have <span class="bold">{{dashboard.messages}}</span> new messages</h4>
+				<br/>
+				<a href="#!/messages" class="btn btn-default btn-primary pull-right">View Messages</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+		<div class="panel panel-default">
+			<div class="panel-heading text-center">
+				<span class="glyphicon glyphicon-calendar icon"></span>
+			</div>
+			<div class="panel-body">
+				<h4 class="text-center">You have <span class="bold">{{dashboard.events}}</span> new events</h4>
+				<br/>
+				<a href="#!/news_events" class="btn btn-default btn-primary pull-right">View Events</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+		<div class="panel panel-default">
+			<div class="panel-heading text-center">
+				<span class="glyphicon glyphicon-briefcase icon"></span>
+			</div>
+			<div class="panel-body">
+				<h4 class="text-center">You have <span class="bold">{{dashboard.news}}</span> new news items</h4>
+				<br/>
+				<a href="#!/news_events" class="btn btn-default btn-primary pull-right">View News</a>
+			</div>
+		</div>
+	</div>
+</div>
